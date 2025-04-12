@@ -1,0 +1,304 @@
+\documentclass[12pt]{article}
+\usepackage{tcolorbox}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\usepackage{tikz}
+\usepackage{afterpage}
+
+\usepackage[absolute]{textpos}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+% add font
+\usepackage[sfdefault]{roboto}  % Requires the roboto package
+\usepackage[T1]{fontenc}
+
+% add a background
+\usepackage{background}
+\backgroundsetup{
+   scale=1,
+   angle=0,
+   opacity=0.05,
+   contents={\includegraphics[width=0.5\textwidth]{images/uni_logo.png}}
+}
+% ===== Add to Preamble =====
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% Header and footer styling
+\pagestyle{fancy}
+\fancyhf{} % Clear default headers/footers
+
+% Header (course name left, assignment name right)
+\lhead{\footnotesize \textbf{\courseName}} % Define \courseName in document
+\rhead{\footnotesize \textbf{\assignmentName}} % Define \assignmentName in document
+\renewcommand{\headrulewidth}{0.4pt} % Line below header
+\renewcommand{\headrule}{\hrule width\headwidth height\headrulewidth \vspace{0.6mm}} % Tight spacing
+
+% Footer (page number centered)
+\cfoot{\footnotesize \thepage~/~\pageref{LastPage}} % "Page X of Y"
+\renewcommand{\footrulewidth}{0.4pt} % Line above footer
+\renewcommand{\footrule}{\vspace{-0.8mm}\hrule width\headwidth height\footrulewidth} % Tight spacing
+
+
+
+% Define commands for dynamic content
+\newcommand{\courseName}{Operating Systems}
+\newcommand{\assignmentName}{Assignment 1}
+% ===========================
+
+
+%  code section setting
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=4
+}
+
+
+
+
+% Set page margins
+\geometry{a4paper, margin=1in}
+
+% Define colors
+\definecolor{answerbox}{RGB}{200, 200, 200}
+
+% Custom tcolorbox for answers
+\newtcolorbox{answerbox}{
+    colback=answerbox,
+    colframe=black,
+    boxrule=0pt,           % No border on all sides
+    leftrule=2pt,          % Left border thickness
+    arc=0pt,               % No rounded corners
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt,
+    width=\linewidth
+}
+
+% Remove section numbering
+\makeatletter
+\renewcommand{\@seccntformat}[1]{}
+\makeatother
+
+
+
+\begin{document}
+\thispagestyle{empty} % Disable header/footer for title page
+% First page with university logo and course info
+\begin{titlepage}
+    % \NoBgThispage
+    \centering
+    \vspace*{\fill} % Push content to vertical center
+    
+    % University logo (adjust width as needed)
+    \includegraphics[width=0.25\textwidth]{images/uni_logo.png}\par
+    \vspace{0.3cm}
+    
+    % Horizontal rule
+    \rule{0.7\textwidth}{0.4pt}\par
+    \vspace{0.5cm}
+    
+    % Course info (compact and elegant)
+    {\fontsize{14}{16}\selectfont \scshape  \courseName}\par
+    \vspace{0.1cm}
+    {\fontsize{12}{14}\selectfont \textup{Dr. Leili Farzinvash}}\par
+    \vspace{0.8cm}
+    
+    % Assignment title (focused prominence)
+    % {\fontsize{26}{31}\selectfont \bfseries\textcolor{blue!40!black}{Assignment 1}}\par
+    {\fontsize{22}{24}\selectfont \bfseries{\assignmentName}}\par
+    \vspace{1cm}
+    
+    % Metadata (tight and organized)
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \begin{tabular}{r@{\hspace{0.5em}}l}
+            \textbf{Due:} & April 19, 2025  \\
+            \textbf{Email:} & zamaninikan@gmail.com \\ % Line for handwritten name
+            % \textbf{Date:} & \today
+        \end{tabular}
+    \end{minipage}\par
+    
+    \vspace{0.5cm}
+    \rule{0.4\textwidth}{0.4pt}\par
+    \vspace*{\fill} % Push content to vertical center
+    
+        \begin{minipage}{\textwidth}
+        \centering
+        \footnotesize\itshape
+        *Note: Submit your assignment via Quera by 11:59pm on the due date. make sure your answer is typed and not handwritten.
+    \end{minipage}
+    
+    \vspace{5mm} % Small gap above note
+\end{titlepage}
+
+% Questions section
+\section{Questions}
+\begin{enumerate}[leftmargin=*]
+
+    \item \textbf{Preemptive Priority Scheduling Analysis}
+    
+    Consider a preemptive priority scheduling system where:
+    \begin{itemize}
+        \item Processes begin with priority 0 (higher numbers = higher priority)
+        \item Waiting processes (ready queue) have priorities changing at rate $\alpha$
+        \item Running processes have priorities changing at rate $\beta$
+    \end{itemize}
+    
+    Analyze these cases and what algorithm they are equal to:
+    \begin{enumerate}[label=(\alph*)]
+        \item What scheduling approach emerges when $\beta > \alpha > 0$?
+        \item What scheduling approach emerges when $\alpha < \beta < 0$?
+    \end{enumerate}
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+    \item \textbf{CPU Scheduling Algorithm Relationships}
+    
+    CPU scheduling algorithms often exist as parameterized sets:
+    \begin{itemize}
+        \item RR requires a time slice parameter
+        \item Multilevel feedback queues need parameters for:
+        \begin{itemize}
+            \item Queue count
+            \item Per-queue scheduling methods
+            \item Process migration rules between queues
+        \end{itemize}
+    \end{itemize}
+    
+    These algorithm sets may overlap (e.g., FCFS = RR with infinite quantum). Examine relationships between:
+    \begin{enumerate}[label=(\alph*)]
+        \item Priority vs SJN
+        \item Multilevel feedback queues vs FCFS
+        \item Priority vs FCFS
+        \item RR vs SJN
+    \end{enumerate}
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+
+    
+    \item \textbf{C Program Output Analysis}
+    
+    Determine the complete output of this C program:
+    \newpage
+    \begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, numbers=left]
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int value = 11;
+
+int main() {
+    pid_t pid;
+    pid = fork();
+    value += 5;
+    
+    if (pid == 0) { /* child */
+        printf("%d", value);
+        value += 9;
+        return 0;
+    }
+    else { /* parent */
+        value += 2;
+        wait(NULL);
+        printf("%d", value);
+        return 0;
+    }
+}
+    \end{lstlisting}
+    
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+    \item \textbf{Layered OS Design Alternative}
+    
+    Standard layered OS designs enforce strict hierarchy (each layer only uses immediate lower layer). Propose an alternative where performance-critical operations can bypass layers, then discuss the trade-offs of this approach.
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+    \item \textbf{CPU Utilization Calculation}
+    
+    Given:
+    \begin{itemize}
+        \item Average CPU burst time: 6ms
+        \item Context switch time: 0.5ms
+        \item Round Robin quantum: 4ms
+    \end{itemize}
+    
+    Calculate the theoretical maximum CPU utilization achievable under these conditions.
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+    \item \textbf{Process Creation Analysis}
+    
+    For this code segment:
+    
+    \begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, numbers=left]
+for (int i = 0; i < 3; i++) {
+    fork();
+    if (i % 2 == 0) {
+        fork();
+    }
+}
+    \end{lstlisting}
+    
+    Determine the total number of processes created (including the original), illustrating your answer with a process tree derivation.
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+    \item \textbf{Multithreading Performance Analysis}
+    
+    Provide:
+    \begin{enumerate}[label=\arabic*.]
+        \item Two programming scenarios where multithreading improves performance compared to single-threaded implementations
+        \item Two scenarios where multithreading decreases performance compared to single-threaded implementations
+    \end{enumerate}
+    
+    % \begin{answerbox}
+    % % Your answer here
+    % \end{answerbox}
+
+\end{enumerate}
+
+
+% Add this right before \end{document} in your main document
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=south west, xshift=30mm, yshift=30mm] 
+    at (current page.south west) 
+    {\footnotesize\itshape Good luck!};
+\end{tikzpicture}
+\end{document}

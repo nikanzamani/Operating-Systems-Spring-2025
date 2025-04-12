@@ -1,0 +1,266 @@
+\documentclass[12pt]{article}
+% \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usepackage{afterpage}
+\usepackage[absolute]{textpos}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{tcolorbox}
+% \usepackage{transparent}
+
+% \usepackage{background}
+
+% \backgroundsetup{
+%    scale=1,
+%    angle=0,
+%    opacity=1, % Set to 1 (let TikZ handle opacity)
+%    contents={\includegraphics[width=0.5\textwidth]{images/uni_logo.png}},
+%    tikzopacity=0.05, % This is the key for XeLaTeX
+%    pages=all,
+%    color=black,
+%    position=current page.center,
+% }
+
+ % For adding backgrounds
+% \usepackage{tikz}    % For transparency control
+
+\AddToShipoutPictureBG{%
+   \begin{tikzpicture}[remember picture, overlay]
+      \node[opacity=0.05] at (current page.center) {%
+         \includegraphics[width=0.5\textwidth]{images/uni_logo.png}%
+      };
+   \end{tikzpicture}%
+}
+
+% Layout settings
+\geometry{a4paper, margin=1in}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize \textbf{\courseName}}
+\rhead{\footnotesize \textbf{\assignmentName}}
+\renewcommand{\headrulewidth}{0.4pt}
+\cfoot{\footnotesize \thepage~/~\pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Custom commands
+\newcommand{\courseName}{سیستم‌عامل}
+\newcommand{\assignmentName}{تمرین اول}
+\definecolor{answerbox}{RGB}{200, 200, 200}
+
+% \newtcolorbox{answerbox}{
+%     colback=answerbox,
+%     colframe=black,
+%     boxrule=0pt,
+%     leftrule=2pt,
+%     arc=0pt,
+%     boxsep=0pt,
+%     left=6pt,
+%     right=6pt,
+%     top=6pt,
+%     bottom=6pt,
+%     width=\linewidth
+% }
+
+% Code listing settings
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=4
+}
+
+% Persian font settings
+\usepackage{xepersian}
+\settextfont[
+    Path = ./fonts/,
+    Extension = .ttf,
+]{XB Niloofar} % Name of the font file (without .ttf)
+     % Persian main font
+\setlatintextfont[
+    Path = ./fonts/,
+    Extension = .otf,
+]{Roboto}
+
+% add a background
+
+\begin{document}
+% \thispagestyle{empty}
+
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+    
+    \includegraphics[width=0.25\textwidth]{images/uni_logo.png}\par
+    \vspace{0.3cm}
+    
+    \rule{0.7\textwidth}{0.4pt}\par
+    \vspace{0.5cm}
+    
+    {\fontsize{14}{16}\selectfont \scshape \courseName}\par
+    \vspace{0.1cm}
+    {\fontsize{12}{14}\selectfont \textup{دکتر لیلی فرزین‌وش}}\par
+    \vspace{0.8cm}
+    
+    {\fontsize{22}{24}\selectfont \bfseries{\assignmentName}}\par
+    \vspace{1cm}
+    
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \begin{tabular}{r@{\hspace{0.5em}}l}
+            \textbf{مهلت تحویل:}&  ۳۰ فروردین ۱۴۰۴  \\
+            \textbf{ایمیل:}&  zamaninikan@gmail.com \\
+        \end{tabular}
+    \end{minipage}\par
+    
+    \vspace{0.5cm}
+    \rule{0.4\textwidth}{0.4pt}\par
+    \vspace*{\fill}
+    
+    \begin{minipage}{\textwidth}
+        \centering
+        \footnotesize\itshape
+        *توجه: تمرین را تا ساعت ۱۱:۵۹ شب تاریخ مقرر از طریق کوئرا ارسال کنید. پاسخ‌ها باید تایپ‌شده باشند.
+    \end{minipage}
+\end{titlepage}
+
+\section{سوالات}
+\begin{enumerate}[rightmargin=1cm,leftmargin=2cm]
+
+\item \textbf{تحلیل \lr{Scheduling} اولویت پیشگیرانه (\lr{Preemptive Priority})}
+
+یک سیستم \lr{scheduling} با اولویت پیشگیرانه در نظر بگیرید که:
+\begin{itemize}
+    % \item 
+    \item {پروسه ها با اولویت صفر شروع می‌کنند (اعداد بالاتر = اولویت بالاتر)}
+    \item \lr{Process} در حال انتظار (\lr{ready queue}) با نرخ $\alpha$ اولویتشان تغییر می‌کند
+    \item \lr{Process} در حال اجرا (\lr{running}) با نرخ $\beta$ اولویتشان تغییر می‌کند
+\end{itemize}
+
+این موارد را تحلیل کنید و معادل الگوریتمی آنها را مشخص نمایید:
+\begin{enumerate}[label=(\harfi*)]
+    \item وقتی $\beta > \alpha > 0$ باشد، چه روش \lr{scheduling} به وجود می‌آید؟
+    \item وقتی $\alpha < \beta < 0$ باشد، چه روش \lr{scheduling} به وجود می‌آید؟
+\end{enumerate}
+
+\item \textbf{روابط بین الگوریتم‌های \lr{CPU Scheduling}}
+
+الگوریتم‌های \lr{CPU Scheduling} اغلب به صورت گروه های پارامتری وجود دارند. مانند:
+\begin{itemize}
+    \item \lr{RR (Round Robin)} نیازمند پارامتر \lr{time quantum} است
+    \item صف‌های چندسطحی \lr{feedback} نیازمند پارامترهایی برای:
+    \begin{itemize}
+        \item تعداد صف‌ها
+        \item روش‌های \lr{scheduling} هر صف
+        \item قوانین جابجایی \lr{process} بین صف‌ها
+    \end{itemize}
+\end{itemize}
+
+این مجموعه‌الگوریتم‌ها ممکن است همپوشانی داشته باشند (مثلاً \lr{FCFS} = \lr{RR} با \lr{quantum} بی‌نهایت). روابط بین موارد زیر را در صورت وجود بررسی کنید:
+\begin{enumerate}[label=(\harfi*)]
+    \item \lr{Priority} در مقابل \lr{SJN}
+    \item صف‌های چندسطحی \lr{feedback} در مقابل \lr{FCFS}
+    \item \lr{Priority} در مقابل \lr{FCFS}
+    \item \lr{RR} در مقابل \lr{SJN}
+\end{enumerate}
+
+\item \textbf{تحلیل خروجی برنامه \lr{C}}
+
+خروجی کامل این برنامه \lr{C} را مشخص کنید:
+\newpage
+
+\begin{latin}
+    
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, numbers=left]
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int value = 11;
+
+int main() {
+    pid_t pid;
+    pid = fork();
+    value += 5;
+    
+    if (pid == 0) { /* child */
+        printf("%d", value);
+        value += 9;
+        return 0;
+    }
+    else { /* parent */
+        value += 2;
+        wait(NULL);
+        printf("%d", value);
+        return 0;
+    }
+}
+\end{lstlisting}
+\end{latin}
+
+\item \textbf{طراحی جایگزین برای معماری لایه‌ای \lr{OS}}
+
+در طراحی استاندارد لایه‌ای \lr{OS}، سلسله مراتب سختگیرانه وجود دارد (هر لایه فقط از لایه پایینی مجاور استفاده می‌کند). یک روش جایگزین پیشنهاد کنید که در آن عملیات حیاتی از نظر \lr{performance} بتوانند لایه‌ها را دور بزنند، سپس \lr{trade-off}های این روش را بحث کنید.
+
+\item \textbf{محاسبه \lr{CPU Utilization}}
+
+با توجه به موارد زیر:
+\begin{itemize}
+    \item میانگین زمان \lr{burst} \lr{CPU}: \lr{6ms}
+    \item زمان \lr{context switch}: \lr{0.5ms}
+    \item \lr{quantum} در \lr{Round Robin}: \lr{4ms}
+\end{itemize}
+
+حداکثر \lr{utilization} ممکن \lr{CPU} را در این شرایط محاسبه کنید.
+
+\item \textbf{تحلیل ایجاد \lr{Process}}
+
+برای قطعه کد زیر:
+\begin{latin}
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, numbers=left]
+for (int i = 0; i < 3; i++) {
+    fork();
+    if (i % 2 == 0) {
+        fork();
+    }
+}
+\end{lstlisting}
+    
+\end{latin}
+
+تعداد کل \lr{process} ایجاد شده (شامل \lr{process} اصلی) را مشخص کنید و پاسخ خود را با رسم درخت \lr{process}ها نشان دهید.
+
+\item \textbf{تحلیل \lr{Performance} چندنخی (\lr{Multithreading})}
+
+مثال هایی برای موارد زیر ارائه دهید:
+\begin{enumerate}[label=\arabic*.]
+    \item دو مورد مسئله‌ی برنامه‌نویسی که در آنها \lr{multithreading} باعث بهبود \lr{performance} نسبت به حالت تک‌نخی می‌شود
+    \item دو مورد مسئله‌ی برنامه نویسی که در آنها \lr{multithreading} باعث کاهش \lr{performance} نسبت به حالت تک‌نخی می‌شود
+\end{enumerate}
+
+\end{enumerate}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=south west, xshift=30mm, yshift=30mm] 
+    at (current page.south west) 
+    {\footnotesize\itshape باشید موفق };
+\end{tikzpicture}
+
+\end{document}
